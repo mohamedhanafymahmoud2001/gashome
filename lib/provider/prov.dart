@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 
 class Control extends ChangeNotifier {
 /////User
+  
   Api api = new Api();
   late Box languagebox = Hive.box("language");
   choseLanguage(String lan) {
@@ -46,11 +47,20 @@ class Control extends ChangeNotifier {
     print("register $registerUser");
     notifyListeners();
   }
-
+  var first_name_user = Hive.openBox("first_name_user");
+  var last_name_user = Hive.openBox("last_name_user");
+  var id_user = Hive.openBox("id_user");
+  var phone_number_user = Hive.openBox("phone_number_user");
+  var token_user = Hive.openBox("token_user");
   var loginUser;
   Future LoginUser() async {
     loginUser = null;
     loginUser = await api.LoginUser();
+    if (loginUser != null) {
+      if (loginUser['message'] == "User Logged In Successfully") {
+        // first_name_user.put('')
+      }
+    }
     print("login $loginUser");
     print("login $loginUser");
     print("login $loginUser");
@@ -115,32 +125,31 @@ class Control extends ChangeNotifier {
   Completer<GoogleMapController> controller = Completer<GoogleMapController>();
   late GoogleMapController gmc;
   late Set<Marker> mymarker = {
-    Marker  (
+    Marker(
         onTap: () {
           print("object");
         },
-        
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         infoWindow: InfoWindow(title: "mohamed Hanafy"),
         markerId: MarkerId("1"),
         position: LatLng(cl!.latitude, cl!.longitude)),
 
-        //
-        // Marker  (
-        // onTap: () {
-        //   print("object");
-        // },
-        // draggable: true,
-        // onDragEnd: (value) {
-        //   print(value);
-        // },
-        // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-        // // icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration.empty,"assets/images/accept.png"),
-        // infoWindow: InfoWindow(title: "saif Hanafy"),
-        // markerId: MarkerId("2"),
-        // position: LatLng(cl!.latitude+10, cl!.longitude+10))
+    //
+    // Marker  (
+    // onTap: () {
+    //   print("object");
+    // },
+    // draggable: true,
+    // onDragEnd: (value) {
+    //   print(value);
+    // },
+    // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    // // icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration.empty,"assets/images/accept.png"),
+    // infoWindow: InfoWindow(title: "saif Hanafy"),
+    // markerId: MarkerId("2"),
+    // position: LatLng(cl!.latitude+10, cl!.longitude+10))
   };
-  
+
   // Future<void> setCustomMarker() async {
   //   mymarker.add(Marker  (
   //       onTap: () {
@@ -166,30 +175,36 @@ class Control extends ChangeNotifier {
     notifyListeners();
   }
 
-  pinMarcker(double lat,double long) async {
+  pinMarcker(double lat, double long) async {
     mymarker = {
       Marker(
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-        infoWindow: InfoWindow(title: "mohamed Hanafy"),
-        markerId: MarkerId("1"), position: LatLng(lat, long))
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          infoWindow: InfoWindow(title: "mohamed Hanafy"),
+          markerId: MarkerId("1"),
+          position: LatLng(lat, long))
     };
     notifyListeners();
   }
 
   late StreamSubscription<Position> ps;
   getLifeLocation() {
-    ps= Geolocator.getPositionStream().listen(
-    (Position? position) {
-        print(position == null ? 'Unknown' : '${position.latitude.toString()}, ${position.longitude.toString()}');
-        mymarker = {
-      Marker(
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-        infoWindow: InfoWindow(title: "mohamed Hanafy"),
-        markerId: MarkerId("1"), position: LatLng(position!.latitude, position.longitude))
-    };
-    notifyListeners();
+    ps = Geolocator.getPositionStream().listen((Position? position) {
+      print(position == null
+          ? 'Unknown'
+          : '${position.latitude.toString()}, ${position.longitude.toString()}');
+      mymarker = {
+        Marker(
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueOrange),
+            infoWindow: InfoWindow(title: "mohamed Hanafy"),
+            markerId: MarkerId("1"),
+            position: LatLng(position!.latitude, position.longitude))
+      };
+      notifyListeners();
     });
   }
+
 //////////////////////////////////////////////////////////
 ////driver
   int ScreenDriver = 3;

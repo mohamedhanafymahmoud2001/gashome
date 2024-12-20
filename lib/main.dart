@@ -33,8 +33,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Directory dir = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(dir.path);
+  await Hive.openBox('first_name_user');
+  await Hive.openBox('last_name_user');
+  await Hive.openBox('id_user'); 
+  await Hive.openBox('phone_number_user');
+  await Hive.openBox('token_user');
   await Hive.openBox('language');
-
   // قفل الشاشة على الوضع العمودي فقط
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -54,34 +58,33 @@ class MyApp extends StatelessWidget {
         return Control();
       },
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          routes: {
-            'langoage': (context) => Langoage(),
-            'account': (context) => Account(),
-            'authentcation': (context) => Authentcation(),
-            'codeauthentcation': (context) => CodeAuthentication(),
-            'changepass1': (context) => ChangePass1(),
-            'changepass2': (context) => ChangePass2(),
-            'changepass3': (context) => ChangePass3(),
-            'cart': (context) => Cart(),
-            'completorder': (context) => CompleteOrder(),
-            'detailsorder': (context) => DetailsOrder(),
-            'home': (context) => Home(),
-            'location': (context) => Location(),
-            'completlocation': (context) => CompletLocation(),
-            'suport': (context) => Suport(),
-            'reservorder': (context) => ReservOrder(),
-            'myorders': (context) => MyOrders(),
-            'accountdriver': (context) => AccountDriver(),
-            'supportdriver': (context) => SupportDriver(),
-            'notification': (context) => Notificat(),
-            'board': (context) => Board(),
-            'mainappdriver': (context) => MainAppDriver(),
-            'mainappuser': (context) => MainAppUser(),
-            
-          },
-          home:  Board(),   //Location() //
-          ),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          'langoage': (context) => Langoage(),
+          'account': (context) => Account(),
+          'authentcation': (context) => Authentcation(),
+          'codeauthentcation': (context) => CodeAuthentication(),
+          'changepass1': (context) => ChangePass1(),
+          'changepass2': (context) => ChangePass2(),
+          'changepass3': (context) => ChangePass3(),
+          'cart': (context) => Cart(),
+          'completorder': (context) => CompleteOrder(),
+          'detailsorder': (context) => DetailsOrder(),
+          'home': (context) => Home(),
+          'location': (context) => Location(),
+          'completlocation': (context) => CompletLocation(),
+          'suport': (context) => Suport(),
+          'reservorder': (context) => ReservOrder(),
+          'myorders': (context) => MyOrders(),
+          'accountdriver': (context) => AccountDriver(),
+          'supportdriver': (context) => SupportDriver(),
+          'notification': (context) => Notificat(),
+          'board': (context) => Board(),
+          'mainappdriver': (context) => MainAppDriver(),
+          'mainappuser': (context) => MainAppUser(),
+        },
+        home: Board(), //Location() //
+      ),
     );
   }
 }
