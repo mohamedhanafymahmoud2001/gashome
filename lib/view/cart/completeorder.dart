@@ -3,7 +3,9 @@ import 'package:gazhome/componanet/appbarapp.dart';
 import 'package:gazhome/componanet/bottonapp.dart';
 import 'package:gazhome/componanet/colors.dart';
 import 'package:gazhome/componanet/dialogapp.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
+import 'package:gazhome/view/mainAppUser.dart';
 import 'package:provider/provider.dart';
 
 class CompleteOrder extends StatefulWidget {
@@ -18,6 +20,7 @@ class _CompleteOrder extends State<CompleteOrder> {
   Widget build(BuildContext context) {
     ColorApp colorApp = new ColorApp();
     DialogApp dialogApp = new DialogApp();
+    LangLocal langLocal = new LangLocal();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -46,7 +49,7 @@ class _CompleteOrder extends State<CompleteOrder> {
                           Border.all(color: colorApp.colorborder, width: 1)),
                   child: Text(
                     textAlign: TextAlign.center,
-                    "نود إبلاغك بأن طلبك من غازهوم في طريقه إليك! فريقنا حريص على إيصال الطلب بأسرع وقت ممكن،ونتابع عن كثب لضمان وصوله بسلام. ستتلقى إشعارًا بمجرد أن يصل السائق إلى موقعك.إذا كانت لديك أي استفسارات، لا تتردد في التواصل معنا.شكرًا لاختيارك غازهوم، ونتمنى لك تجربة تسوق مريحة معنا.مع أطيب التحيات،",
+                    "${langLocal.langLocal['lang17']['${val.languagebox.get("language")}']}",
                     style:
                         TextStyle(fontSize: 15, color: colorApp.colorFontblack),
                   ),
@@ -63,13 +66,13 @@ class _CompleteOrder extends State<CompleteOrder> {
                   child: Row(
                     children: [
                       Text(
-                        "الإثنين الموافق 28 / 10 / 2024",
+                        "${langLocal.langLocal['lang18']['${val.languagebox.get("language")}']} ${val.selectedDate}",
                         style: TextStyle(
                             fontSize: 15, color: colorApp.colorFontblack),
                       ),
                       Expanded(child: Container()),
                       Text(
-                        "ميعاد التسليم",
+                        "${langLocal.langLocal['lang19']['${val.languagebox.get("language")}']}",
                         style: TextStyle(
                             fontSize: 15,
                             color: colorApp.colorFontblue,
@@ -80,10 +83,15 @@ class _CompleteOrder extends State<CompleteOrder> {
                 ),
                 BottonApp(
                       width: 150,
-                    title: "الرئيسية",
+                    title:"${langLocal.langLocal['lang20']['${val.languagebox.get("language")}']}",
                     color: colorApp.colorbgbutton2,
                     func: () {
-                      Navigator.of(context).pushReplacementNamed("home");
+                      Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => MainAppUser()),
+                                          (Route<dynamic> route) => false,
+                                        );
                       val.switchBottomNavigatorBar(3);
                     })
               ],

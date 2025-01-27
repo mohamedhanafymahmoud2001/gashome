@@ -24,10 +24,10 @@ class _MyOrders extends State {
           children: [
             
             Expanded(
-                child: ListView.builder(
-                    itemCount: 5,
+                child:val.myOrders==null?Center(child: CircularProgressIndicator()): ListView.builder(
+                    itemCount: val.myOrders['data'].length,
                     itemBuilder: (context, i) {
-                      return BodyMyOrders();
+                      return BodyMyOrders(data: val.myOrders['data'][i],);
                     })),
           ],
         );

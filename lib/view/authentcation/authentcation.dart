@@ -3,6 +3,7 @@ import 'package:gazhome/componanet/appbarapp.dart';
 import 'package:gazhome/componanet/bottonapp.dart';
 import 'package:gazhome/componanet/colors.dart';
 import 'package:gazhome/componanet/inputapp.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:gazhome/view/authentcation/signin.dart';
 import 'package:gazhome/view/authentcation/signup.dart';
@@ -17,6 +18,15 @@ class Authentcation extends StatefulWidget {
 
 class _Authentcation extends State<Authentcation> {
   ColorApp colorApp = new ColorApp();
+  LangLocal langLocal=new LangLocal();
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<Control>(context, listen: false).GetTokenDevice();
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +47,7 @@ class _Authentcation extends State<Authentcation> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       BottonAuthentcation(
-                          title: "انشاء حساب",
+                          title: "${langLocal.langLocal['Sign Up']['${val.languagebox.get("language")}']}",
                           color: val.authentication == "signup"
                               ? colorApp.colorbgbutton2
                               : colorApp.colorbgbutton1,
@@ -48,7 +58,7 @@ class _Authentcation extends State<Authentcation> {
                             val.switchAuthentcation("signup");
                           }),
                       BottonAuthentcation(
-                          title: "تسجيل دخول",
+                          title:  "${langLocal.langLocal['Sign In']['${val.languagebox.get("language")}']}",
                           color: val.authentication == "signin"
                               ? colorApp.colorbgbutton2
                               : colorApp.colorbgbutton1,

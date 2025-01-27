@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "357525072398",
+    "project_id": "gashome-66c08",
+    "storage_bucket": "gashome-66c08.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357525072398:android:b7b74cccaffdf4f5c96a5f",
+        "android_client_info": {
+          "package_name": "com.mohamedhanafymahmoud.gashome"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAleE-bMop7exBXtoRDSqU3vCbPiIKqoPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

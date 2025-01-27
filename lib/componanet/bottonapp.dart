@@ -82,6 +82,7 @@ class BottonApp extends StatelessWidget {
                 // border: Border.all(color: colorApp.colorborder, width: 1)
               ),
               child: Text(
+                textAlign:  TextAlign.center,
                 "$title",
                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12  ),
               ),
@@ -108,14 +109,14 @@ class BottonHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.symmetric(horizontal: 5,vertical: 0),
       onPressed: func,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
         decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.only(topRight: Radius.circular(20)),
-            border: Border.all(color: colorApp.colorborder, width: 1)),
+            border: Border.all(color: colorApp.colorbgbutton2, width: 1)),
         child: Text(
           "$title",
           style: TextStyle(color: colorfont, fontWeight: FontWeight.bold),

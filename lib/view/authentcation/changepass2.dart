@@ -4,6 +4,7 @@ import 'package:gazhome/componanet/bottonapp.dart';
 import 'package:gazhome/componanet/colors.dart';
 import 'package:gazhome/componanet/dialogapp.dart';
 import 'package:gazhome/componanet/inputapp.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class _ChangePass2 extends State<ChangePass2> {
   ColorApp colorApp = new ColorApp();
   DialogApp dialogApp = new DialogApp();
   GlobalKey<FormState> formstate = GlobalKey();
+  LangLocal langLocal=new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +45,7 @@ class _ChangePass2 extends State<ChangePass2> {
                     margin: EdgeInsets.symmetric(vertical: 30),
                     child: Text(
                       textAlign: TextAlign.center,
-                      "إعادة تعيين كلمة المرور",
+                      "${langLocal.langLocal['reset']['${val.languagebox.get("language")}']}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: colorApp.colorFontblue),
@@ -54,7 +56,7 @@ class _ChangePass2 extends State<ChangePass2> {
                   ),
                   Text(
                     textAlign: TextAlign.center,
-                    "تم إرسال رقم تأكيد للحساب علي \n ${val.api.phonechangepass.text}",
+                    "${langLocal.langLocal['donereset']['${val.languagebox.get("language")}']} \n ${val.api.phonechangepass.text}",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: colorApp.colorFontblack),
@@ -101,14 +103,16 @@ class _ChangePass2 extends State<ChangePass2> {
                   ),
                   BottonApp(
                       width: 150,
-                      title: "موافق",
+                      title: "${langLocal.langLocal['ok']['${val.languagebox.get("language")}']}",
                       color: colorApp.colorbgbuttonapp,
                       func: () {
                         if (formstate.currentState!.validate()) {
+                          val.changePass2();
                           dialogApp.checkdialog(context, () {
+                            
                             Navigator.of(context).pop();
                             Navigator.of(context).pushNamed("changepass3");
-                          }, 'تم بنجاح', true);
+                          }, );
                           print("validat");
                         } else {
                           print("not validat");

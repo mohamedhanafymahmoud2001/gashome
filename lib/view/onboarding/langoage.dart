@@ -28,7 +28,7 @@ class _Langoage extends State<Langoage> {
                     onTap: () {
                       val.choseLanguage("ar");
                       Navigator.of(context)
-                          .pushNamed("authentcation");
+                          .pushReplacementNamed("board");
                     },
                   );
                 })),
@@ -40,6 +40,8 @@ class _Langoage extends State<Langoage> {
                     trailing: Icon(Icons.keyboard_arrow_right),
                     onTap: () {
                       val.choseLanguage("en");
+                      Navigator.of(context)
+                          .pushReplacementNamed("board");
                     },
                   );
                 })),

@@ -3,14 +3,24 @@ import 'package:gazhome/componanet/bottomsheet.dart';
 import 'package:gazhome/componanet/bottonapp.dart';
 import 'package:gazhome/componanet/colors.dart';
 import 'package:gazhome/componanet/dialogapp.dart';
+import 'package:gazhome/provider/langlocal.dart';
+import 'package:gazhome/provider/prov.dart';
+import 'package:provider/provider.dart';
 
 class BodyMyOrders extends StatelessWidget {
   ColorApp colorApp = new ColorApp();
   DialogApp dialogApp = new DialogApp();
+  LangLocal langLocal = new  LangLocal();
+  BodyMyOrders ({
+    super.key,
+    required this.data,
+  });
+  var data;
   BottomSheetApp bottomSheetApp = new BottomSheetApp();
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Consumer<Control>(builder: (context, val, child) {
+        return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -25,7 +35,31 @@ class BodyMyOrders extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  child: Image.asset("assets/images/prodect1.png"),
+                  child: Image.network(
+                      "${val.api.imagedomain2}${data['product_image']}",
+                      fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object error,
+                          StackTrace? stackTrace) {
+                        // في حال حدوث خطأ، يمكنك عرض صورة افتراضية
+                        return Image.asset(
+                          "assets/images/logo.png", // المسار إلى الصورة الافتراضية
+                          fit: BoxFit.cover,
+                        );
+                      },
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        // عرض مؤشر تحميل أثناء تحميل الصورة
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
                 ),
               ),
               Expanded(
@@ -37,7 +71,7 @@ class BodyMyOrders extends StatelessWidget {
                     children: [
                       Container(
                         child: Text(
-                          "محمد حنفي محمود",
+                          "${data['user_first_name']} ${data['user_last_name']}",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -50,7 +84,7 @@ class BodyMyOrders extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(right: 5),
                               child: Text(
-                                "0123417635261",
+                                "${data['user_phone_number']}",
                                 style: TextStyle(),
                               ),
                             ),
@@ -63,7 +97,8 @@ class BodyMyOrders extends StatelessWidget {
                                     width: 0.5, color: colorApp.colorFontblack),
                               ),
                               child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                      val.call(data['user_phone_number']);},
                                   icon: Icon(
                                     Icons.phone_outlined,
                                     size: 15,
@@ -83,7 +118,7 @@ class BodyMyOrders extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 5),
                                 child: Text(
                                   textAlign: TextAlign.end,
-                                  "جدة - حي الزهور - شارع الملك عبد الله - رقم المبني 15",
+                                  '${data['address_city']} , ${data['address_state']} , ${data['address_street_name']} , ${data['address_building_number']}',
                                   style: TextStyle(),
                                 ),
                               ),
@@ -97,7 +132,10 @@ class BodyMyOrders extends StatelessWidget {
                                     width: 0.5, color: colorApp.colorFontblack),
                               ),
                               child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    val.setdata(double.parse(data['address_latitude']), double.parse(data['address_longitude']), "${data['user_first_name']} ${data['user_last_name']}");
+                                      Navigator.of(context).pushNamed("mapdriver");
+                                  },
                                   icon: Icon(
                                     Icons.pin_drop,
                                     size: 15,
@@ -114,7 +152,7 @@ class BodyMyOrders extends StatelessWidget {
                           border: Border.all(
                               width: 0.5, color: colorApp.colorFontblack),
                         ),
-                        child: Text("تم سداد فاتورة الشراء"),
+                        child: data['order_payment_status']=="paid"?  Text("${langLocal.langLocal['lang42']['${val.languagebox.get("language")}']}"):Text("${langLocal.langLocal['lang43']['${val.languagebox.get("language")}']}"),
                       )
                     ],
                   ),
@@ -140,14 +178,14 @@ class BodyMyOrders extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "ريال",
+                       "${langLocal.langLocal['lang16']['${val.languagebox.get("language")}']}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                             color: colorApp.colorFontblack),
                       ),
                       Text(
-                        " 323",
+                        " ${data['order_total_price_after_tax']}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -170,14 +208,14 @@ class BodyMyOrders extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "3",
+                        " ${data['product_quantity_in_order']}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                             color: colorApp.colorFontblack),
                       ),
                       Text(
-                        " عدد",
+                        "${langLocal.langLocal['lang44']['${val.languagebox.get("language")}']}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -196,7 +234,7 @@ class BodyMyOrders extends StatelessWidget {
                         Border.all(width: 0.5, color: colorApp.colorFontblack),
                   ),
                   child: Text(
-                    "أنابيب بي-آل-بي",
+                    "${data['product_name']}",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                 )),
@@ -210,10 +248,10 @@ class BodyMyOrders extends StatelessWidget {
                 Expanded(
                   child: BottonApp(
                       width: double.infinity,
-                      title: "إتمام الطلب",
+                      title: "${langLocal.langLocal['lang45']['${val.languagebox.get("language")}']}",
                       color: colorApp.colorbgbutton2,
                       func: () {
-                        bottomSheetApp.doneOrder(context);
+                        bottomSheetApp.doneOrder(context,data['order_id']);
                       }),
                 ),
                 SizedBox(
@@ -222,10 +260,10 @@ class BodyMyOrders extends StatelessWidget {
                 Expanded(
                   child: BottonApp(
                       width: double.infinity,
-                      title: "رفض الطلبية",
+                      title: "${langLocal.langLocal['lang46']['${val.languagebox.get("language")}']}",
                       color: colorApp.colorbgbutton2,
                       func: () {
-                        bottomSheetApp.rejectOrder(context);
+                        bottomSheetApp.rejectOrder(context,data['order_id']);
                       }),
                 ),SizedBox(
                   width: 10,
@@ -233,10 +271,11 @@ class BodyMyOrders extends StatelessWidget {
                 Expanded(
                   child: BottonApp(
                       width: double.infinity,
-                      title: "عدم التوصيل",
+                      title: "${langLocal.langLocal['lang47']['${val.languagebox.get("language")}']}",
                       color: colorApp.colorbgbutton2,
                       func: () {
-                        bottomSheetApp.deletOrder(context);
+                        bottomSheetApp.deletOrder(context,data['order_id']);
+                      
                       }),
                 ),
               ],
@@ -244,6 +283,6 @@ class BodyMyOrders extends StatelessWidget {
           )
         ],
       ),
-    );
+    );});
   }
 }

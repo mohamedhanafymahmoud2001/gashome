@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        google() // تأكد من إضافة مستودع Google
+        mavenCentral() // إضافة مستودع Maven
+    }
+    dependencies {
+    // ... other dependencies
+        // classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.android.tools.build:gradle:8.1.2' // تأكد من وجود الإصدار الصحيح من Gradle
+        classpath 'com.google.gms:google-services:4.4.2' // الحزمة المطلوبة
+    }
+}
 allprojects {
     repositories {
         google()

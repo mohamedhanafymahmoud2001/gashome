@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gazhome/componanet/appbarapp.dart';
 import 'package:gazhome/componanet/colors.dart';
 import 'package:gazhome/componanet/dialogapp.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:provider/provider.dart';
@@ -23,15 +24,18 @@ class _Location extends State<Location> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<Control>(context, listen: false).getPosion();
-    });WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<Control>(context, listen: false).getLifeLocation();
     });
+
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Provider.of<Control>(context, listen: false).getLifeLocation();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     ColorApp colorApp = new ColorApp();
     DialogApp dialogApp = new DialogApp();
+    LangLocal langLocal = new LangLocal();
     return Consumer<Control>(builder: (context, val, child) {
       return Scaffold(
         appBar: AppBar(
@@ -40,23 +44,22 @@ class _Location extends State<Location> {
           backgroundColor: colorApp.colorbody,
         ),
         backgroundColor: colorApp.colorbody,
-        body: val.kGooglePlex.target.latitude == 0.0
+        body: val.kGooglePlexUser.target.latitude == 0.0
             ? Center(child: CircularProgressIndicator())
             : GoogleMap(
-              
                 mapType: MapType.hybrid,
                 markers: val.mymarker,
-                initialCameraPosition: val.kGooglePlex,
+                initialCameraPosition: val.kGooglePlexUser,
                 onTap: (argument) {
-                  val.pinMarcker(argument.latitude,argument.longitude);
-                  print("new location${argument.latitude}");
+                  val.pinMarcker(argument.latitude, argument.longitude);
+                  val.long = argument.longitude;
+                  val.lat = argument.latitude;
+                  print("new location${val.lat}///${argument.latitude}");
                 },
                 onMapCreated: (GoogleMapController controller) {
                   // val.controller.complete(controller);
                   val.gmc = controller;
                   print(" loca${val.gmc}");
-                  
-                  
                 },
               ),
         floatingActionButton: Container(
@@ -70,21 +73,23 @@ class _Location extends State<Location> {
             child: MaterialButton(
               padding: EdgeInsets.all(0),
               onPressed: () async {
-                // Navigator.of(context).pushNamed("completlocation");
-                // val.getPosion();
+                if (val.placemarks.isNotEmpty) {
+                  Navigator.of(context).pushNamed("completlocation");
+                  
+                  // val.getPosion();
+                }
                 // LatLng latLng = LatLng(0.0, 0.0);
                 // val.gmc.animateCamera(CameraUpdate.newLatLng(latLng));
-                
-                var xy =
-                    await val.gmc.getLatLng(ScreenCoordinate(x: 10, y: 10));
-                print(xy);
-                
+
+                // var xy =
+                //     await val.gmc.getLatLng(ScreenCoordinate(x: 10, y: 10));
+                // print(xy);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "موافق",
+                    "${langLocal.langLocal['ok']['${val.languagebox.get("language")}']}",
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,

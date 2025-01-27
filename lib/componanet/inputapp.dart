@@ -16,7 +16,7 @@ class InputApp extends StatelessWidget {
   final Widget icon;
   final TextInputType keyboard;
 
-  ColorApp colorApp = new ColorApp();
+  ColorApp colorsApp = new ColorApp();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
@@ -34,8 +34,9 @@ class InputApp extends StatelessWidget {
           decoration: InputDecoration(
               prefixIcon: icon,
               hintText: hint,
+              hintStyle: TextStyle(fontSize: 12,color: colorsApp.colorgreyapp),
               border: OutlineInputBorder(
-                  borderSide: BorderSide(color: colorApp.colorborder),
+                  borderSide: BorderSide(color: colorsApp.colorborder),
                   borderRadius: BorderRadius.circular(10))),
         ),
       );
@@ -73,10 +74,12 @@ class InputAppPass extends StatelessWidget {
           },
           obscureText: show,
           keyboardType: keyboard,
+          
           controller: controler,
           decoration: InputDecoration(
               prefixIcon: icon,
               hintText: hint,
+              hintStyle: TextStyle(fontSize: 12,color: colorsApp.colorgreyapp),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         ),
@@ -96,7 +99,7 @@ class InputCode extends StatelessWidget {
   final String hint;
   final TextInputType keyboard;
 
-  ColorApp colorApp = new ColorApp();
+  ColorApp colorsApp = new ColorApp();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
@@ -120,6 +123,7 @@ class InputCode extends StatelessWidget {
           controller: controler,
           decoration: InputDecoration(
               hintText: hint,
+              hintStyle: TextStyle(fontSize: 12,color: colorsApp.colorgreyapp),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
         ),

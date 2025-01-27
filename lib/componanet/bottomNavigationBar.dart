@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gazhome/componanet/colors.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationBarApp extends StatelessWidget {
   ColorApp colorApp = new ColorApp();
+  LangLocal langLocal = new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
@@ -12,15 +14,6 @@ class BottomNavigationBarApp extends StatelessWidget {
           onTap: (valu) {
             print(valu);
             val.switchBottomNavigatorBar(valu);
-            
-            // Navigator.of(context).pushReplacementNamed(valu == 0
-            //     ? "suport"
-            //     : valu == 1
-            //         ? "account"
-            //         : valu == 2
-            //             ? "cart"
-            //             : "home");
-            
           },
           currentIndex: val.screen,
           backgroundColor: colorApp.colorbody,
@@ -28,13 +21,21 @@ class BottomNavigationBarApp extends StatelessWidget {
           useLegacyColorScheme: false,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.support_agent), label: 'خدمة العملاء'),
+                icon: Icon(Icons.support_agent),
+                label:
+                    "${langLocal.langLocal['support']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_2_outlined), label: 'الحساب'),
+                icon: Icon(Icons.person_2_outlined),
+                label:
+                    "${langLocal.langLocal['account']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_checkout), label: 'عربة التسوق'),
+                icon: Icon(Icons.shopping_cart_checkout),
+                label:
+                    "${langLocal.langLocal['cart']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: 'الصفحة الرئيسية'),
+                icon: Icon(Icons.home_outlined),
+                label:
+                    "${langLocal.langLocal['home']['${val.languagebox.get("language")}']}"),
           ]);
     });
   }
@@ -42,14 +43,13 @@ class BottomNavigationBarApp extends StatelessWidget {
 
 class BottomNavigationBarAppDriver extends StatelessWidget {
   ColorApp colorApp = new ColorApp();
+  LangLocal langLocal=new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
       return BottomNavigationBar(
           onTap: (value) {
-         
-              val.changenavbardriver(value);
-            
+            val.changenavbardriver(value);
           },
           currentIndex: val.ScreenDriver,
           backgroundColor: colorApp.colorbody,
@@ -57,22 +57,22 @@ class BottomNavigationBarAppDriver extends StatelessWidget {
           useLegacyColorScheme: false,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.support), label: 'الشكاوي'),
+                icon: Icon(Icons.support), label: "${langLocal.langLocal['lang1']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person_outline,
                 ),
-                label: 'الحساب'),
+                label:"${langLocal.langLocal['lang2']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.local_shipping_outlined,
                 ),
-                label: 'طلباتي'),
+                label: "${langLocal.langLocal['lang3']['${val.languagebox.get("language")}']}"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.inventory_2_outlined,
                 ),
-                label: 'حجز طلبية'),
+                label: "${langLocal.langLocal['lang4']['${val.languagebox.get("language")}']}"),
           ]);
     });
   }

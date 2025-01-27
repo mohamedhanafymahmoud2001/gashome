@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gazhome/componanet/colors.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:provider/provider.dart';
 
 class Board2 extends StatelessWidget {
   ColorApp colorsApp = new ColorApp();
+  LangLocal langLocal=new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
@@ -21,7 +23,7 @@ class Board2 extends StatelessWidget {
               margin: EdgeInsets.only(top: 30),
               child: Text(
                 textAlign: TextAlign.center,
-                "لماذا تختارنا ؟!",
+                "${langLocal.langLocal['Why']['${val.languagebox.get("language")}']}",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400,color: colorsApp.colorfontboard),
               ),
             ),
@@ -30,7 +32,7 @@ class Board2 extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 textAlign: TextAlign.center,
-                "سرعة فائقة: توصيل في وقت قياسي. أمان مضمون: منتجات عالية الجودة بأفضل المعايير. راحة تامة: دعم متواصل وخدمة مخصصة لتلبية كل طلباتك. نحن هنا لتسهيل حياتك وجعل احتياجاتك أقرب مما تتخيل!",
+                "${langLocal.langLocal['DBoard2']['${val.languagebox.get("language")}']}",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300,color: colorsApp.colorgreyapp),
               ),
             ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gazhome/componanet/colors.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:provider/provider.dart';
 
 class Board3 extends StatelessWidget {
   ColorApp colorsApp = new ColorApp();
+  LangLocal langLocal=new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
@@ -20,7 +22,7 @@ class Board3 extends StatelessWidget {
                 margin: EdgeInsets.only(top: 30),
                 child: Text(
                   textAlign: TextAlign.center,
-                  "جاهز للبدء؟",
+                  "${langLocal.langLocal['Redy']['${val.languagebox.get("language")}']}",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400,color: colorsApp.colorfontboard),
                 ),
               ),
@@ -29,7 +31,8 @@ class Board3 extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   textAlign: TextAlign.center,
-                  "كل ما عليك فعله هو اختيار أسطوانتك، وإتمام الطلب، ودع الباقي علينا! استمتع بخدمة احترافية، توصيل سريع، وتجربة مميزة لن تنساها. ابدأ الآن وكن جزءًا من عائلتنا الموثوقة!",
+                  
+                  "${langLocal.langLocal['DBoard3']['${val.languagebox.get("language")}']}",
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300,color: colorsApp.colorgreyapp),
                 ),
               ),

@@ -9,13 +9,14 @@ import 'package:gazhome/view/home/prodect.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-
   ColorApp colorApp = new ColorApp();
   DialogApp dialogApp = new DialogApp();
   @override
   Widget build(BuildContext context) {
     return Consumer<Control>(builder: (context, val, child) {
-          return Container(
+          return val.homeCatogery==null?Center(child: CircularProgressIndicator()): val.homeCatogery['message']!="All Categories"?Center(
+                      child: Image.asset("assets/images/nodata.png"),
+                    ): Container(
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -23,27 +24,39 @@ class Home extends StatelessWidget {
                       alignment: Alignment.center,
                       width: double.infinity,
                       height: 200,
-                      child: Image.asset("assets/images/panner.png")),
+                    
+                      decoration: BoxDecoration(
+                        
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset("assets/images/panner.jpg",fit: BoxFit.contain,)
+                        )
+                        ),
                   Container(
                     width: double.infinity,
                     height: 60,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 1,
+                      itemCount: val.homeCatogery['data'].length,
                       itemBuilder: (context, i) {
                         return BottonHome(
-                            title: "اسطوانات الغاز",
-                            color: colorApp.colorbgbutton2,
-                            colorfont: colorApp.colorbgbutton1,
-                            func: () {});
+                            title: "${val.homeCatogery['data'][i]['name']}",
+                            color:val.choseCatogery==i? colorApp.colorbgbutton2:colorApp.colorFontwhite,
+                            colorfont:val.choseCatogery==i? colorApp.colorbgbutton1:colorApp.colorFontblack,
+                            func: () {
+                              val.ChoseCatogery(i);
+                              val.HomeUser(val.homeCatogery['data'][i]['id']);
+                            });
                       },
                     ),
                   ),
-                  Container(
+                  val.homeUser==null?CircularProgressIndicator():val.homeUser['message']!='All Products'?Center(
+                      child: Image.asset("assets/images/nodata.png"),
+                    ) :Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(3),
                     child: GridView.builder(
-                      
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,9 +66,9 @@ class Home extends StatelessWidget {
                           childAspectRatio:
                               0.47, // نسبة العرض إلى الطول، وهنا 1:2 (أي الطول ضعف العرض)
                         ),
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Prodect();
+                        itemCount: val.homeUser['data'].length,
+                        itemBuilder: (context, i) {
+                          return Prodect(data:  val.homeUser['data'][i],i:i);
                         }),
                   ),
                 ],

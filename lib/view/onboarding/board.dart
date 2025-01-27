@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gazhome/componanet/bottonapp.dart';
 import 'package:gazhome/componanet/colors.dart';
+import 'package:gazhome/provider/langlocal.dart';
 import 'package:gazhome/provider/prov.dart';
 import 'package:gazhome/view/onboarding/board1.dart';
 import 'package:gazhome/view/onboarding/board2.dart';
@@ -16,7 +17,7 @@ class Board extends StatefulWidget {
 
 class _Board extends State<Board> {
   ColorApp colorsApp = new ColorApp();
-
+  LangLocal langLocal=new LangLocal();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class _Board extends State<Board> {
                       Navigator.of(context).pushReplacementNamed("authentcation");
                     },
                     child: Text(
-                      "Skip",
+                      "${langLocal.langLocal['Skip']['${val.languagebox.get("language")}']}",//
                       style: TextStyle(
                         fontSize: 16,
                         color: colorsApp.colorFontblack,
@@ -83,7 +84,7 @@ class _Board extends State<Board> {
               Container(
                 margin: EdgeInsets.all(10),
                 child: BottonApp(
-                    title: "Next",
+                    title: "${langLocal.langLocal['Next']['${val.languagebox.get("language")}']}",
                     color: colorsApp.colorbgbuttonapp,
                     width: 150,
                     func: () {
